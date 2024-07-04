@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import React from 'react';
+import React from "react";
 import {
   Animated,
   LayoutChangeEvent,
@@ -12,23 +12,22 @@ import {
   View,
   ViewProps,
   ViewStyle,
-} from 'react-native';
+} from "react-native";
 import {
   EvaSize,
   EvaStatus,
   LiteralUnion,
   Overwrite,
-} from '@ui-kitten/components/devsupport';
-import {
-  styled,
-  StyledComponentProps,
-  StyleType,
-} from '@ui-kitten/components';
-import { ProgressBarAnimation, ProgressBarAnimationConfig } from './animation';
+} from "@ui-kitten/components/devsupport";
+import { styled, StyledComponentProps, StyleType } from "@ui-kitten/components";
+import { ProgressBarAnimation, ProgressBarAnimationConfig } from "./animation";
 
-type ProgressBarStyledProps = Overwrite<StyledComponentProps, {
-  appearance?: LiteralUnion<'default'>;
-}>;
+type ProgressBarStyledProps = Overwrite<
+  StyledComponentProps,
+  {
+    appearance?: LiteralUnion<"default">;
+  }
+>;
 
 interface ComponentStyles {
   track: ViewStyle;
@@ -80,9 +79,8 @@ interface State {
  *
  */
 
-@styled('ProgressBar')
+@styled("ProgressBar")
 export class ProgressBar extends React.PureComponent<ProgressBarProps> {
-
   static defaultProps: Partial<ProgressBarProps> = {
     animating: true,
     progress: 0,
@@ -108,7 +106,8 @@ export class ProgressBar extends React.PureComponent<ProgressBarProps> {
 
   public componentDidUpdate(prevProps: ProgressBarProps): void {
     const progressChanged: boolean = this.props.progress !== prevProps.progress;
-    const animatingChanged: boolean = this.props.animating !== prevProps.animating;
+    const animatingChanged: boolean =
+      this.props.animating !== prevProps.animating;
 
     if (progressChanged && this.props.animating) {
       this.startAnimation();
@@ -133,7 +132,7 @@ export class ProgressBar extends React.PureComponent<ProgressBarProps> {
   };
 
   private clamp = (progress: number): number => {
-    return progress > 1 ? 1 : (progress < 0 ? 0 : progress);
+    return progress > 1 ? 1 : progress < 0 ? 0 : progress;
   };
 
   private onLayout = (event: LayoutChangeEvent): void => {
@@ -145,12 +144,7 @@ export class ProgressBar extends React.PureComponent<ProgressBarProps> {
   };
 
   private getComponentStyle = (source: StyleType): ComponentStyles => {
-    const {
-      height,
-      borderRadius,
-      trackColor,
-      indicatorColor,
-    } = source;
+    const { height, borderRadius, trackColor, indicatorColor } = source;
 
     return {
       track: {
@@ -167,7 +161,9 @@ export class ProgressBar extends React.PureComponent<ProgressBarProps> {
   };
 
   private renderIndicator = (
-    style: ViewStyle, progress: number, animating: boolean,
+    style: ViewStyle,
+    progress: number,
+    animating: boolean
   ): React.ReactElement<Animated.AnimatedProps<ViewStyle>> => {
     const indicatorStyles: Animated.AnimatedProps<ViewStyle>[] = [style];
 
@@ -177,19 +173,20 @@ export class ProgressBar extends React.PureComponent<ProgressBarProps> {
       indicatorStyles.push(animationStyles);
     } else {
       const validProgress = this.clamp(progress);
-      const width = `${validProgress * 100}%`;
+      const width = `${validProgress * 100}%` as `${number}%`;
 
       indicatorStyles.push({ width });
     }
 
-    return (
-      <Animated.View style={indicatorStyles} />
-    );
+    return <Animated.View style={indicatorStyles} />;
   };
 
   public render(): React.ReactElement<ViewProps> {
     const { eva, style, progress, animating, ...viewProps } = this.props;
-    const combinedStyles: StyleType = StyleSheet.flatten([eva.style, this.props.style]);
+    const combinedStyles: StyleType = StyleSheet.flatten([
+      eva.style,
+      this.props.style,
+    ]);
     const evaStyle = this.getComponentStyle(combinedStyles);
 
     return (
@@ -206,8 +203,6 @@ export class ProgressBar extends React.PureComponent<ProgressBarProps> {
 
 const styles = StyleSheet.create({
   noOverflow: {
-    overflow: 'hidden',
+    overflow: "hidden",
   },
 });
-
-

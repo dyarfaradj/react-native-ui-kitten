@@ -4,7 +4,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  */
 
-import React from 'react';
+import React from "react";
 import {
   GestureResponderEvent,
   ImageProps,
@@ -12,7 +12,7 @@ import {
   StyleSheet,
   View,
   ViewProps,
-} from 'react-native';
+} from "react-native";
 import {
   FalsyFC,
   FalsyText,
@@ -22,18 +22,21 @@ import {
   TouchableWebProps,
   Overwrite,
   LiteralUnion,
-} from '../../devsupport';
+} from "../../devsupport";
 import {
   Interaction,
   styled,
   StyledComponentProps,
   StyleType,
-} from '../../theme';
-import { TextProps } from '../text/text.component';
+} from "../../theme";
+import { TextProps } from "../text/text.component";
 
-type ListItemStyledProps = Overwrite<StyledComponentProps, {
-  appearance?: LiteralUnion<'default'>;
-}>;
+type ListItemStyledProps = Overwrite<
+  StyledComponentProps,
+  {
+    appearance?: LiteralUnion<"default">;
+  }
+>;
 
 export interface ListItemProps extends TouchableWebProps, ListItemStyledProps {
   title?: RenderProp<TextProps> | React.ReactText;
@@ -44,7 +47,6 @@ export interface ListItemProps extends TouchableWebProps, ListItemStyledProps {
 }
 
 export type ListItemElement = React.ReactElement<ListItemProps>;
-
 
 type WebStyles = {
   container: StyleType;
@@ -92,9 +94,8 @@ type WebStyles = {
  * />
  * ```
  */
-@styled('ListItem')
+@styled("ListItem")
 export class ListItem extends React.Component<ListItemProps> {
-
   private onPressIn = (event: GestureResponderEvent): void => {
     this.props.eva.dispatch([Interaction.ACTIVE]);
     this.props.onPressIn?.(event);
@@ -153,13 +154,13 @@ export class ListItem extends React.Component<ListItemProps> {
     };
   };
 
-  private renderTemplateChildren = (props: ListItemProps, evaStyle): React.ReactElement => {
+  private renderTemplateChildren = (
+    props: ListItemProps,
+    evaStyle
+  ): React.ReactElement => {
     return (
       <>
-        <FalsyFC
-          style={evaStyle.icon}
-          component={props.accessoryLeft}
-        />
+        <FalsyFC style={evaStyle.icon} component={props.accessoryLeft} />
         <View style={styles.contentContainer}>
           <FalsyText
             style={[evaStyle.title, styles.title]}
@@ -170,10 +171,7 @@ export class ListItem extends React.Component<ListItemProps> {
             component={props.description}
           />
         </View>
-        <FalsyFC
-          style={evaStyle.icon}
-          component={props.accessoryRight}
-        />
+        <FalsyFC style={evaStyle.icon} component={props.accessoryRight} />
       </>
     );
   };
@@ -195,7 +193,12 @@ export class ListItem extends React.Component<ListItemProps> {
     return (
       <TouchableWeb
         {...touchableProps}
-        style={[evaStyle.container, styles.container, webStyles.container, style]}
+        style={[
+          evaStyle.container,
+          styles.container,
+          webStyles.container,
+          style,
+        ]}
         onPressIn={this.onPressIn}
         onPressOut={this.onPressOut}
       >
@@ -207,22 +210,24 @@ export class ListItem extends React.Component<ListItemProps> {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   contentContainer: {
     flex: 1,
   },
   title: {
-    textAlign: 'left',
+    textAlign: "left",
   },
   description: {
-    textAlign: 'left',
+    textAlign: "left",
   },
 });
 
-const webStyles = Platform.OS === 'web' && StyleSheet.create<WebStyles>({
-  container: {
-    outlineWidth: 0,
-  },
-});
+const webStyles =
+  Platform.OS === "web" &&
+  StyleSheet.create<WebStyles>({
+    container: {
+      // outlineWidth: 0,
+    },
+  });
